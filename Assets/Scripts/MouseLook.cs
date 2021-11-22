@@ -18,8 +18,8 @@ public class MouseLook : MonoBehaviour
 
     private void Awake()
     {
-        inputActions = new InputMaster();
         playerBody = transform.parent;
+        inputActions = new InputMaster();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
