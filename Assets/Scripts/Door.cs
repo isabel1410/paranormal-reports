@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField]
     public GameObject text;
+    [SerializeField]
+    public Animator animator;
+
+    private bool inRange;
 
     public void Start()
     {
@@ -16,7 +21,27 @@ public class Door : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             text.SetActive(true);
-            Debug.Log("triggered");
+            inRange = true;
+            Debug.Log("in range!");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            text.SetActive(false);
+            inRange = false;
+            Debug.Log("out of range!");
+        }
+    }
+
+    public void OpenDoor()
+    {
+        if (inRange)
+        {
+            Debug.Log("joe");
+            animator.SetBool("Opened", true);
         }
     }
 }

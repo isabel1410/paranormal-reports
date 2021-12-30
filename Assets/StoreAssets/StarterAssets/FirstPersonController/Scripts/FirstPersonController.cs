@@ -51,11 +51,18 @@ namespace StarterAssets
 		public GameObject CinemachineCameraTarget;
 		//[Tooltip("How far in degrees can you move the camera up")]
 		//public float TopClamp = 80f;
-  //      [Tooltip("How far in degrees can you move the camera down")]
-  //      public float BottomClamp = -70f;
+		//      [Tooltip("How far in degrees can you move the camera down")]
+		//      public float BottomClamp = -70f;
 
-        // cinemachine
-        private float _cinemachineTargetPitch;
+		[Header("Interactions")]
+		[Tooltip("If the player is pressing the Interaction button or no.")]
+		[SerializeField]
+		private bool Interacting;
+		[SerializeField]
+		public Door door;
+
+		// cinemachine
+		private float _cinemachineTargetPitch;
 
 		// player
 		private float _speed;
@@ -66,6 +73,7 @@ namespace StarterAssets
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
+		private float _interactionTimeout;
 
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
@@ -97,6 +105,7 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			Interact();
 		}
 
 		private void LateUpdate()
@@ -175,6 +184,15 @@ namespace StarterAssets
 
 			// move the player
 			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+		}
+
+		private void Interact()
+        {
+			if (_input.interacting)
+            {
+				door.OpenDoor();
+            }
+
 		}
 
 		private void JumpAndGravity()
