@@ -42,6 +42,13 @@ public class Door : MonoBehaviour
         {
             Debug.Log("joe");
             animator.SetBool("Opened", true);
+            StartCoroutine(CloseDoor(animator.GetCurrentAnimatorStateInfo(0).length));
         }
+    }
+
+    IEnumerator CloseDoor(float _delay = 0)
+    {
+        yield return new WaitForSeconds(_delay);
+        animator.SetBool("Opened", false);
     }
 }
