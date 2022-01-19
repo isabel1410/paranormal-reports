@@ -79,7 +79,7 @@ namespace StarterAssets
 		public void InteractingInput (bool newInteractingState)
         {
 			interacting = newInteractingState;
-        }
+		}
 
 #if !UNITY_IOS || !UNITY_ANDROID
 

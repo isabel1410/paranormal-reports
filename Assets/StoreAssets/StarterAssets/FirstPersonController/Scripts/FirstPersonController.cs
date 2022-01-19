@@ -54,13 +54,6 @@ namespace StarterAssets
 		//      [Tooltip("How far in degrees can you move the camera down")]
 		//      public float BottomClamp = -70f;
 
-		[Header("Interactions")]
-		[Tooltip("If the player is pressing the Interaction button or no.")]
-		[SerializeField]
-		private bool Interacting;
-		[SerializeField]
-		public Door door;
-
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
@@ -190,9 +183,16 @@ namespace StarterAssets
         {
 			if (_input.interacting)
             {
-				door.OpenDoor();
-            }
-
+				_input.interacting = false;
+				Ray ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
+				RaycastHit hit;
+				if (Physics.Raycast(ray, out hit))
+				{
+					if (hit.collider.gameObject.GetComponentInParent<Door>() == null) return;
+					hit.collider.gameObject.GetComponentInParent<Door>().OpenDoor();
+				}
+			}
+			_input.interacting = false;
 		}
 
 		private void JumpAndGravity()

@@ -5,17 +5,19 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField]
-    public GameObject text;
-    [SerializeField]
-    public Animator animator;
+    private GameObject text;
+
+    private Animator animator;
 
     private bool inRange;
 
     public void Start()
     {
+        animator = GetComponentInParent<Animator>();
         text.SetActive(false);
     }
-    // Start is called before the first frame update
+
+    // Check if player is in range
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -26,6 +28,7 @@ public class Door : MonoBehaviour
         }
     }
 
+    // Check if player is out of range
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -40,15 +43,16 @@ public class Door : MonoBehaviour
     {
         if (inRange)
         {
-            Debug.Log("joe");
-            animator.SetBool("Opened", true);
-            StartCoroutine(CloseDoor(animator.GetCurrentAnimatorStateInfo(0).length));
+            StartCoroutine("UseDoor");
         }
     }
 
-    IEnumerator CloseDoor(float _delay = 0)
+    IEnumerator UseDoor()
     {
-        yield return new WaitForSeconds(_delay);
+        animator.SetBool("Opened", true);
+
+        yield return new WaitForSeconds(5f);
+
         animator.SetBool("Opened", false);
     }
 }
